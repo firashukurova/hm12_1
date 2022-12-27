@@ -1,0 +1,18 @@
+---
+- hosts: all
+  tasks:
+     - name: Find all files older than {{ max_age }} in {{ specified_path}}
+       find: 
+         paths: "{{ specified_path}}"
+         age: "{{ max_age }}"
+         recursive: yes
+       register: "{{some_directory}}" 
+
+     - name: Delete files older {{max_age}} 
+       file:
+         path: "{{ item.path }}"
+         state: absent
+      with_items: "{{ (filesOlderThan10.files) }}"  
+  
+  
+  
