@@ -1,18 +1,20 @@
----
 - hosts: all
-  tasks:
-     - name: Find all files older than {{ max_age }} in {{ specified_path}}
-       find: 
-         paths: "{{ specified_path}}"
-         age: "{{ max_age }}"
-         recursive: yes
-       register: "{{some_directory}}" 
 
-     - name: Delete files older {{max_age}} 
-       file:
-         path: "{{ item.path }}"
+  tasks:
+    - name: Find all files older than {{ 3d }} in {{ /home/ec2-user/ansible-practice/  }}
+      find:
+         paths: "{{ path }}"
+         age: "3d"
+         recursive: yes
+      register: ansiblelog
+
+    - name: Delete files older {{ 3 days }}
+      file:
+         path: "/home/ec2-user/ansible-practice/"
          state: absent
-      with_items: "{{ (filesOlderThan10.files) }}"  
-  
+      with_items: ansiblelog
+
+
+
   
   
